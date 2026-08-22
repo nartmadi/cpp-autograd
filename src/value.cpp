@@ -10,6 +10,8 @@ const char* op_name(Op op) {
 			return "Add";
 		case Op::Multiply:
 			return "Multiply";
+		case Op::Subtract:
+			return "Subtract";
 	}
 	return "Unknown";
 }
@@ -52,6 +54,15 @@ Value	operator*(const Value& lhs, const Value& rhs) {
 	return result;
 }
 
+Value	operator-(const Value& lhs, const Value& rhs) {
+	Value result(lhs.data() - rhs.data());
+
+	result.node->op = Op::Subtract;
+	result.node->parents = {lhs.node, rhs.node};
+
+	return result;
+}
+
 void	Value::backward() {
 	std::vector<std::shared_ptr<Node>>	topo;
 	std::set<Node*>	visited;
@@ -81,6 +92,10 @@ void	Value::backward() {
 		else if (n->op == Op::Multiply) {
 			n->parents[0]->grad += n->grad * n->parents[1]->data;
 			n->parents[1]->grad += n->grad * n->parents[0]->data;
+		}
+		else if (n->op == Op::Subtract) {
+			n->parents[0]->grad += n->grad;
+			n->parents[1]->grad -= n->grad;
 		}
 	}
 }
