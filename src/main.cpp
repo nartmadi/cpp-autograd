@@ -8,7 +8,12 @@ int main() {
     Value c = a * b;
     Value d = c + a;
 
-    std::cout << c.data() << '\n';
-    std::cout << d.data() << '\n';
+    std::cout << "c =\t\t\t\t" << c.data() << '\n';
+    std::cout << "c's parent count =\t\t" << c.parent_count() << '\n';
+    std::cout << "Operation that produced c:\t" << op_name(c.op()) << "\n\n";
+
+    std::cout << "d =\t\t\t\t" << d.data() << '\n';
+    std::cout << "d's parent count =\t\t" << d.parent_count() << '\n';
+    std::cout << "Operation that produced d:\t" << op_name(d.op()) << '\n';
 }
 

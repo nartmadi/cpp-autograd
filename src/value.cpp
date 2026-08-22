@@ -1,5 +1,17 @@
 #include "autograd/value.hpp"
 
+const char* op_name(Op op) {
+    switch(op) {
+        case Op::None:
+            return "None";
+        case Op::Add:
+            return "Add";
+        case Op::Multiply:
+            return "Multiply";
+    }
+    return "Unknown";
+}
+
 Value::Value(double data) : node(std::make_shared<Node>()) {
     node->data = data;
 }
@@ -10,6 +22,14 @@ double  Value::data() const {
 
 double  Value::grad() const {
     return node->grad;
+}
+
+Op      Value::op() const {
+    return node->op;
+}
+
+std::size_t Value::parent_count() const {
+    return node->parents.size();
 }
 
 Value   operator+(const Value& lhs, const Value& rhs) {

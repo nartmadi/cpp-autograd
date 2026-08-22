@@ -9,6 +9,8 @@ enum class Op {
     Multiply
 };
 
+const char* op_name(Op op);
+
 class Value {
 private:
     struct Node {
@@ -23,8 +25,10 @@ private:
 public:
     Value(double data);
 
-    double data() const;
-    double grad() const;
+    double      data() const;
+    double      grad() const;
+    Op          op() const;
+    std::size_t parent_count() const;
 
     friend Value    operator+(const Value& lhs, const Value& rhs);
     friend Value    operator*(const Value& lhs, const Value& rhs);
