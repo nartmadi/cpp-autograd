@@ -14,6 +14,12 @@ int main() {
 
     std::cout << "d =\t\t\t\t" << d.data() << '\n';
     std::cout << "d's parent count =\t\t" << d.parent_count() << '\n';
-    std::cout << "Operation that produced d:\t" << op_name(d.op()) << '\n';
+    std::cout << "Operation that produced d:\t" << op_name(d.op()) << "\n\n";
+
+    d.backward();
+    std::cout << "d.grad = " << d.grad() << '\n';
+    std::cout << "c.grad = " << c.grad() << '\n';
+    std::cout << "a.grad = " << a.grad() << '\n';
+    std::cout << "b.grad = " << b.grad() << '\n';
 }
 

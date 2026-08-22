@@ -32,5 +32,7 @@ public:
 
     friend Value    operator+(const Value& lhs, const Value& rhs);
     friend Value    operator*(const Value& lhs, const Value& rhs);
+
+    void            backward();
 };
 
