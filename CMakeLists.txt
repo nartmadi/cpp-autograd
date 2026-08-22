@@ -21,4 +21,3 @@ add_executable(demo
 target_link_libraries(demo
 	PRIVATE autograd
 )
-
