@@ -6,10 +6,13 @@ int	main() {
 	Value b(3.0);
 	Value a2(5.0);
 	Value b2(2.0);
+	Value a3(6.0);
+	Value b3(3.0);
 
 	Value c = a * b;
 	Value d = c + a;
 	Value c2 = a2 - b2;
+	Value c3 = a3 / b3;
 
 	std::cout << "c =\t\t\t\t" << c.data() << '\n';
 	std::cout << "c's parent count =\t\t" << c.parent_count() << '\n';
@@ -30,4 +33,10 @@ int	main() {
 	std::cout << "c2.grad = " << c2.grad() << '\n';
 	std::cout << "a2.grad = " << a2.grad() << '\n';
 	std::cout << "b2.grad = " << b2.grad() << '\n';
+
+	c3.backward();
+	std::cout << "c3.data = " << c3.data() << '\n';
+	std::cout << "c3.grad = " << c3.grad() << '\n';
+	std::cout << "a3.grad = " << a3.grad() << '\n';
+	std::cout << "b3.grad = " << b3.grad() << '\n';
 }

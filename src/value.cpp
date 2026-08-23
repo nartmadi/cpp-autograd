@@ -1,6 +1,7 @@
 #include "autograd/value.hpp"
 #include <set>
 #include <functional>
+#include <stdexcept>
 
 const char* op_name(Op op) {
 	switch(op) {
@@ -12,6 +13,8 @@ const char* op_name(Op op) {
 			return "Multiply";
 		case Op::Subtract:
 			return "Subtract";
+		case Op::Divide:
+			return "Divide";
 	}
 	return "Unknown";
 }
@@ -63,6 +66,18 @@ Value	operator-(const Value& lhs, const Value& rhs) {
 	return result;
 }
 
+Value	operator/(const Value& lhs, const Value& rhs) {
+	if (rhs.data() == 0.0) {
+		throw std::domain_error("Division by zero.");
+	}
+	Value result(lhs.data() / rhs.data());
+
+	result.node->op = Op::Divide;
+	result.node->parents = {lhs.node, rhs.node};
+
+	return result;
+}
+
 void	Value::backward() {
 	std::vector<std::shared_ptr<Node>>	topo;
 	std::set<Node*>	visited;
@@ -96,6 +111,10 @@ void	Value::backward() {
 		else if (n->op == Op::Subtract) {
 			n->parents[0]->grad += n->grad;
 			n->parents[1]->grad -= n->grad;
+		}
+		else if (n->op == Op::Divide) {
+			n->parents[0]->grad += n->grad / n->parents[1]->data;
+			n->parents[1]->grad -= n->grad * n->parents[0]->data / (n->parents[1]->data * n->parents[1]->data);
 		}
 	}
 }
