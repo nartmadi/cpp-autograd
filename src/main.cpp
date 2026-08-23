@@ -8,6 +8,11 @@ int	main() {
 	Value b2(2.0);
 	Value a3(6.0);
 	Value b3(3.0);
+	Value x(3.0);
+
+	Value y = x.power(2.0);
+	std::cout << "y.data = \t\t\t" << y.data() << '\n';
+	std::cout << "y's parent count =\t\t" << y.parent_count() << "\n\n";
 
 	Value c = a * b;
 	Value d = c + a;

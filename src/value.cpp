@@ -2,6 +2,7 @@
 #include <set>
 #include <functional>
 #include <stdexcept>
+#include <iostream>
 
 const char* op_name(Op op) {
 	switch(op) {
@@ -15,6 +16,8 @@ const char* op_name(Op op) {
 			return "Subtract";
 		case Op::Divide:
 			return "Divide";
+		case Op::Power:
+			return "Power";
 	}
 	return "Unknown";
 }
@@ -78,6 +81,16 @@ Value	operator/(const Value& lhs, const Value& rhs) {
 	return result;
 }
 
+Value	Value::power(double exponent) const {
+	Value result = std::pow(node->data, exponent);
+
+	result.node->op = Op::Power;
+	result.node->parents = {node};
+	result.node->exponent = exponent;
+
+	return result;
+}
+
 void	Value::backward() {
 	std::vector<std::shared_ptr<Node>>	topo;
 	std::set<Node*>	visited;
@@ -115,6 +128,9 @@ void	Value::backward() {
 		else if (n->op == Op::Divide) {
 			n->parents[0]->grad += n->grad / n->parents[1]->data;
 			n->parents[1]->grad -= n->grad * n->parents[0]->data / (n->parents[1]->data * n->parents[1]->data);
+		}
+		else if (n->op == Op::Power) {
+			n->parents[0]->grad += n->grad * (n->exponent * std::pow(n->parents[0]->data, n->exponent - 1));
 		}
 	}
 }
