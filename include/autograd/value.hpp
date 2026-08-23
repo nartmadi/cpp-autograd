@@ -11,7 +11,8 @@ enum class Op {
 	Divide,
 	Power,
 	Negate,
-	ReLU
+	ReLU,
+	Tanh
 };
 
 const char* op_name(Op op);
@@ -43,6 +44,7 @@ public:
 	Value			operator-() const;
 	Value			power(double exponent) const;
 	Value			relu() const;
+	Value			tanh() const;
 
 	void	backward();
 };

@@ -11,6 +11,11 @@ int	main() {
 	Value x(3.0);
 	Value n(4.0);
 
+	Value x1(1.0);
+	Value y1 = x1.tanh();
+	y1.backward();
+	std::cout << "x1.grad = \t\t\t" << x1.grad() << "\n\n";
+
 	Value m = -n;
 	Value m2 = m.relu();
 	Value n2 = n.relu();

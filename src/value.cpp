@@ -22,6 +22,8 @@ const char* op_name(Op op) {
 			return "Negate";
 		case Op::ReLU:
 			return "ReLU";
+		case Op::Tanh:
+			return "Tanh";
 	}
 	return "Unknown";
 }
@@ -113,6 +115,15 @@ Value	Value::relu() const {
 	return result;
 }
 
+Value	Value::tanh() const {
+	Value result(std::tanh(node->data));
+
+	result.node->op = Op::Tanh;
+	result.node->parents = {node};
+
+	return result;
+}
+
 void	Value::backward() {
 	std::vector<std::shared_ptr<Node>>	topo;
 	std::set<Node*>	visited;
@@ -159,6 +170,9 @@ void	Value::backward() {
 		}
 		else if (n->op == Op::ReLU) {
 			n->parents[0]->grad += n->parents[0]->data > 0.0 ? n->grad : 0.0;
+		}
+		else if (n->op == Op::Tanh) {
+			n->parents[0]->grad += n->grad * (1 - std::pow(n->data, 2));
 		}
 	}
 }
