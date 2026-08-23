@@ -2,7 +2,7 @@
 #include <set>
 #include <functional>
 #include <stdexcept>
-#include <iostream>
+#include <cmath>
 
 const char* op_name(Op op) {
 	switch(op) {
