@@ -1,53 +1,42 @@
 #pragma once
 
-#include <vector>
 #include <memory>
+#include <vector>
 
-enum class Op {
-	None,
-	Add,
-	Multiply,
-	Subtract,
-	Divide,
-	Power,
-	Negate,
-	ReLU,
-	Tanh
-};
+enum class Op { None, Add, Multiply, Subtract, Divide, Power, Negate, ReLU, Tanh };
 
-const char* op_name(Op op);
+const char *op_name(Op op);
 
 class Value {
-private:
-	struct Node {
-		double								data;           // Scalar value produced during forward pass.
-		double								grad = 0.0;     // Gradient of the final output with respect to this node.
-		Op									op = Op::None;  // Operation that produced this node.
-		std::vector<std::shared_ptr<Node>>	parents;        // Direct input nodes used to produce this node.
-		double								exponent;		// Exponent used by the power operation that produced this node.
-	};
+  private:
+    struct Node {
+        double data;       // Scalar value produced during forward pass.
+        double grad = 0.0; // Gradient of the final output with respect to this node.
+        Op op = Op::None;  // Operation that produced this node.
+        std::vector<std::shared_ptr<Node>> parents; // Direct input nodes used to produce this node.
+        double exponent; // Exponent used by the power operation that produced this node.
+    };
 
-	std::shared_ptr<Node>	node;                             // Shared handle to this Value's computation-graph node.
-	std::vector<std::shared_ptr<Node>>		build_topo() const;
+    std::shared_ptr<Node> node; // Shared handle to this Value's computation-graph node.
+    std::vector<std::shared_ptr<Node>> build_topo() const;
 
-public:
-	Value(double data);
+  public:
+    Value(double data);
 
-	double		data() const;
-	double		grad() const;
-	Op			op() const;
-	std::size_t	parent_count() const;
+    double data() const;
+    double grad() const;
+    Op op() const;
+    std::size_t parent_count() const;
 
-	friend Value	operator+(const Value& lhs, const Value& rhs);
-	friend Value	operator*(const Value& lhs, const Value& rhs);
-	friend Value	operator-(const Value& lhs, const Value& rhs);
-	friend Value	operator/(const Value& lhs, const Value& rhs);
-	Value			operator-() const;
-	Value			power(double exponent) const;
-	Value			relu() const;
-	Value			tanh() const;
+    friend Value operator+(const Value &lhs, const Value &rhs);
+    friend Value operator*(const Value &lhs, const Value &rhs);
+    friend Value operator-(const Value &lhs, const Value &rhs);
+    friend Value operator/(const Value &lhs, const Value &rhs);
+    Value operator-() const;
+    Value power(double exponent) const;
+    Value relu() const;
+    Value tanh() const;
 
-	void	backward();
-	void	zero_grad();
+    void backward();
+    void zero_grad();
 };
-
