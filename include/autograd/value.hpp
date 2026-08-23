@@ -28,6 +28,7 @@ private:
 	};
 
 	std::shared_ptr<Node>	node;                             // Shared handle to this Value's computation-graph node.
+	std::vector<std::shared_ptr<Node>>		build_topo() const;
 
 public:
 	Value(double data);

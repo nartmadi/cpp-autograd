@@ -124,7 +124,7 @@ Value	Value::tanh() const {
 	return result;
 }
 
-void	Value::backward() {
+std::vector<std::shared_ptr<Value::Node>>	Value::build_topo() const {
 	std::vector<std::shared_ptr<Node>>	topo;
 	std::set<Node*>	visited;
 
@@ -141,6 +141,12 @@ void	Value::backward() {
 	};
 
 	dfs(node);
+
+	return topo;
+}
+
+void	Value::backward() {
+	std::vector<std::shared_ptr<Node>> topo = build_topo();
 	node->grad = 1.0;
 
 	for (auto it = topo.rbegin(); it != topo.rend(); ++it) {
@@ -178,22 +184,7 @@ void	Value::backward() {
 }
 
 void	Value::zero_grad() {
-	std::vector<std::shared_ptr<Node>>	topo;
-	std::set<Node*>	visited;
-
-	std::function<void(const std::shared_ptr<Node>&)> dfs;
-	dfs = [&](const std::shared_ptr<Node>& n) {
-		if (visited.contains(n.get())) {
-			return;
-		}
-		visited.insert(n.get());
-		for (const std::shared_ptr<Node>& parent : n->parents) {
-			dfs(parent);
-		}
-		topo.push_back(n);
-	};
-
-	dfs(node);
+	std::vector<std::shared_ptr<Node>> topo = build_topo();
 
 	for (const std::shared_ptr<Node>& n : topo) {
 		n->grad = 0.0;
