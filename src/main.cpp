@@ -12,6 +12,13 @@ int	main() {
 	Value n(4.0);
 
 	Value m = -n;
+	Value m2 = m.relu();
+	Value n2 = n.relu();
+	std::cout << "m2.data = \t\t\t" << m2.data() << '\n';
+	std::cout << "m2's parent count =\t\t" << m2.parent_count() << '\n';
+	std::cout << "n2.data = \t\t\t" << n2.data() << '\n';
+	std::cout << "n2's parent count =\t\t" << n2.parent_count() << '\n';
+
 	Value l = -m;
 	std::cout << "m.data = \t\t\t" << m.data() << '\n';
 	std::cout << "m's parent count =\t\t" << m.parent_count() << '\n';

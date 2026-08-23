@@ -20,6 +20,8 @@ const char* op_name(Op op) {
 			return "Power";
 		case Op::Negate:
 			return "Negate";
+		case Op::ReLU:
+			return "ReLU";
 	}
 	return "Unknown";
 }
@@ -102,6 +104,15 @@ Value	Value::power(double exponent) const {
 	return result;
 }
 
+Value	Value::relu() const {
+	Value result(node->data > 0.0 ? node->data : 0.0);
+
+	result.node->op = Op::ReLU;
+	result.node->parents = {node};
+
+	return result;
+}
+
 void	Value::backward() {
 	std::vector<std::shared_ptr<Node>>	topo;
 	std::set<Node*>	visited;
@@ -145,6 +156,9 @@ void	Value::backward() {
 		}
 		else if (n->op == Op::Negate) {
 			n->parents[0]->grad -= n-> grad;
+		}
+		else if (n->op == Op::ReLU) {
+			n->parents[0]->grad += n->parents[0]->data > 0.0 ? n->grad : 0.0;
 		}
 	}
 }

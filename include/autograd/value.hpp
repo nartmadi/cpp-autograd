@@ -10,7 +10,8 @@ enum class Op {
 	Subtract,
 	Divide,
 	Power,
-	Negate
+	Negate,
+	ReLU
 };
 
 const char* op_name(Op op);
@@ -41,6 +42,7 @@ public:
 	friend Value	operator/(const Value& lhs, const Value& rhs);
 	Value			operator-() const;
 	Value			power(double exponent) const;
+	Value			relu() const;
 
 	void	backward();
 };
