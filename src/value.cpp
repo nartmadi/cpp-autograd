@@ -155,7 +155,7 @@ void	Value::backward() {
 			n->parents[0]->grad += n->grad * (n->exponent * std::pow(n->parents[0]->data, n->exponent - 1));
 		}
 		else if (n->op == Op::Negate) {
-			n->parents[0]->grad -= n-> grad;
+			n->parents[0]->grad -= n->grad;
 		}
 		else if (n->op == Op::ReLU) {
 			n->parents[0]->grad += n->parents[0]->data > 0.0 ? n->grad : 0.0;
