@@ -47,5 +47,6 @@ public:
 	Value			tanh() const;
 
 	void	backward();
+	void	zero_grad();
 };
 

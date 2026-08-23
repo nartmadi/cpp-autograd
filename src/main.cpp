@@ -52,15 +52,31 @@ int	main() {
 	std::cout << "c.grad = " << c.grad() << '\n';
 	std::cout << "a.grad = " << a.grad() << '\n';
 	std::cout << "b.grad = " << b.grad() << "\n\n";
+	d.zero_grad();
+	std::cout << "d.zero_grad() called" << '\n';
+	std::cout << "d.grad = " << d.grad() << '\n';
+	std::cout << "c.grad = " << c.grad() << '\n';
+	std::cout << "a.grad = " << a.grad() << '\n';
+	std::cout << "b.grad = " << b.grad() << "\n\n";
 
 	c2.backward();
 	std::cout << "c2.data = " << c2.data() << '\n';
 	std::cout << "c2.grad = " << c2.grad() << '\n';
 	std::cout << "a2.grad = " << a2.grad() << '\n';
 	std::cout << "b2.grad = " << b2.grad() << '\n';
+	c2.zero_grad();
+	std::cout << "c2.zero_grad() called" << '\n';
+	std::cout << "c2.grad = " << c2.grad() << '\n';
+	std::cout << "a2.grad = " << a2.grad() << '\n';
+	std::cout << "b2.grad = " << b2.grad() << "\n\n";
 
 	c3.backward();
 	std::cout << "c3.data = " << c3.data() << '\n';
+	std::cout << "c3.grad = " << c3.grad() << '\n';
+	std::cout << "a3.grad = " << a3.grad() << '\n';
+	std::cout << "b3.grad = " << b3.grad() << '\n';
+	c3.zero_grad();
+	std::cout << "c3.zero_grad() called" << '\n';
 	std::cout << "c3.grad = " << c3.grad() << '\n';
 	std::cout << "a3.grad = " << a3.grad() << '\n';
 	std::cout << "b3.grad = " << b3.grad() << '\n';
