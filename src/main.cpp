@@ -9,6 +9,14 @@ int	main() {
 	Value a3(6.0);
 	Value b3(3.0);
 	Value x(3.0);
+	Value n(4.0);
+
+	Value m = -n;
+	Value l = -m;
+	std::cout << "m.data = \t\t\t" << m.data() << '\n';
+	std::cout << "m's parent count =\t\t" << m.parent_count() << '\n';
+	std::cout << "l.data = \t\t\t" << l.data() << '\n';
+	std::cout << "l's parent count =\t\t" << l.parent_count() << "\n\n";
 
 	Value y = x.power(2.0);
 	std::cout << "y.data = \t\t\t" << y.data() << '\n';

@@ -18,6 +18,8 @@ const char* op_name(Op op) {
 			return "Divide";
 		case Op::Power:
 			return "Power";
+		case Op::Negate:
+			return "Negate";
 	}
 	return "Unknown";
 }
@@ -81,6 +83,15 @@ Value	operator/(const Value& lhs, const Value& rhs) {
 	return result;
 }
 
+Value	Value::operator-() const {
+	Value result(-node->data);
+
+	result.node->op = Op::Negate;
+	result.node->parents = {node};
+
+	return result;
+}
+
 Value	Value::power(double exponent) const {
 	Value result = std::pow(node->data, exponent);
 
@@ -131,6 +142,9 @@ void	Value::backward() {
 		}
 		else if (n->op == Op::Power) {
 			n->parents[0]->grad += n->grad * (n->exponent * std::pow(n->parents[0]->data, n->exponent - 1));
+		}
+		else if (n->op == Op::Negate) {
+			n->parents[0]->grad -= n-> grad;
 		}
 	}
 }
